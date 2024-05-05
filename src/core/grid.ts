@@ -157,9 +157,17 @@ export class Grid {
     if (!this.inBounds(a)) return;
     if (!this.inBounds(b)) return;
 
-    const temp = this.grid[a.y][a.x];
-    this.grid[a.y][a.x] = this.grid[b.y][b.x];
-    this.grid[b.y][b.x] = temp;
+    const temp1 = this.grid[a.y][a.x];
+    const temp2 = this.grid[b.y][b.x];
+
+    this.grid[a.y][a.x] = null;
+    this.grid[b.y][b.x] = null;
+    
+    this.drawPixel(a);
+    this.drawPixel(b);
+
+    this.grid[a.y][a.x] = temp2;
+    this.grid[b.y][b.x] = temp1;
 
     this.modifiedIndices.add(a);
     this.modifiedIndices.add(b);
