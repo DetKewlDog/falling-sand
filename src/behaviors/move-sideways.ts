@@ -11,12 +11,12 @@ export class MoveSideways extends Behavior {
     for (const dx of checkOrder) {
       newPos.x = pos.x + dx;
       const other = grid.get(newPos);
-      if (other === undefined || (other && (other.mass === -1 || other.mass >= p.mass))) {
+      if (other === undefined) continue;
+      if (other && (other.mass === -1 || other.mass >= p.mass)) {
         continue;
       }
   
-      grid.set(newPos, p);
-      grid.set(pos, null);
+      grid.swap(pos, newPos);
       p.lastDir = dx;
       return true;
     }

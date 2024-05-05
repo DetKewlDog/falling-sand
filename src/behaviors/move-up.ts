@@ -6,17 +6,17 @@ import { Point } from "../types";
 export class MoveUp extends Behavior {
   update(p: Particle, pos: Point, grid: Grid): boolean {
     let newPos = { x: pos.x, y: pos.y + 1 };
-    const dir = Math.random() > 0.5 ? 1 : -1;
+    const dir = p.lastDir || (Math.random() > 0.5 ? 1 : -1);
     const checkOrder = dir === -1 ? [0, -1, 1] : [0, 1, -1];
     for (const dx of checkOrder) {
       newPos.x = pos.x + dx;
       const other = grid.get(newPos);
-      if (other === undefined || (other && (other.mass === -1 || other.mass >= p.mass))) {
+      if (other === undefined) continue;
+      if (other && (other.mass === -1 || other.mass >= p.mass)) {
         continue;
       }
   
-      grid.set(newPos, p);
-      grid.set(pos, null);
+      grid.swap(pos, newPos);
       p.lastDir = dx;
       return true;
     }

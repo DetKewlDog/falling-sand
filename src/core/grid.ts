@@ -27,6 +27,8 @@ export class Grid {
 
   private modifiedIndices: Set<Point>;
 
+  dataToDisplay: Record<string, string> = {};
+
   constructor(canvas: HTMLCanvasElement, fps: number) {
     fps /= 2;
 
@@ -75,9 +77,14 @@ export class Grid {
       holdInterval = setInterval(() => {
         for (let _y = y - DRAW_SIZE; _y <= y + DRAW_SIZE; _y++) {
           for (let _x = x - DRAW_SIZE; _x <= x + DRAW_SIZE; _x++) {
+            const pos = { x: _x, y: _y };
+            const removing = e.button == 2;
+
+            if (!removing && !!this.get(pos)) continue;
+
             this.set(
-              { x: _x, y: _y }, 
-              e.button == 2 ? null : new particles[this.particleIndex](this)
+              pos, 
+              removing ? null : new particles[this.particleIndex](this)
             );
           }
         }
@@ -109,6 +116,12 @@ export class Grid {
           p?.update({ x, y })
         )
       });
+
+      const cells = this.grid.flat(1).filter(i => !!i);
+
+      particles.map(i => i.name.toString()).forEach(p => {
+        this.dataToDisplay[`${p} cells`] = cells.filter(i => i?.constructor.name === p).length.toString();
+      })
     }, 1000 / fps);
   }
 
@@ -150,6 +163,9 @@ export class Grid {
 
     this.modifiedIndices.add(a);
     this.modifiedIndices.add(b);
+
+    this.grid[a.y][a.x] && (this.grid[a.y][a.x]!.updated = true);
+    this.grid[b.y][b.x] && (this.grid[b.y][b.x]!.updated = true);
 
     this.drawPixel(a);
     this.drawPixel(b);

@@ -13,9 +13,8 @@ const text = root.querySelector<HTMLParagraphElement>('#text')!
 
 let currentParticle: typeof Particle;
 
+
 setInterval(() => {
-  const temp = particles[grid.particleIndex];
-  if (temp === currentParticle) return;
-  currentParticle = temp;
-  text.innerText = currentParticle.name;
+  currentParticle = particles[grid.particleIndex];
+  text.innerText = currentParticle.name + '\n' + Object.entries(grid.dataToDisplay).map(([k, v]) => `${k}: ${v}`).join('\n');
 }, 1000 / FPS);
