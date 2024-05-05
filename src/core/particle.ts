@@ -1,3 +1,4 @@
+import { hexToRGB, randomColor } from "../helpers";
 import { Point } from "../types";
 import { Behavior } from "./behavior";
 import { Grid } from "./grid";
@@ -10,9 +11,11 @@ export class Particle {
   lastDir: number = 0;
   mass: number = 0;
 
-  constructor(grid: Grid, color: string, mass: number = -1, behaviors: Behavior[] = []) {
+  constructor(grid: Grid, color: string, mass: number = -1, behaviors: Behavior[] = [], alpha: number = 1, randomizeColor: boolean = true) {
     this.grid = grid;
-    this.color = color;
+    this.color = randomizeColor 
+    ? randomColor(color, alpha) 
+    : hexToRGB(color, alpha);
     this.mass = mass;
     this.behaviors = behaviors;
   }

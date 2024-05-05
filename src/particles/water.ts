@@ -15,6 +15,6 @@ export class Water extends Particle {
   ];
 
   constructor(grid: Grid) {
-    super(grid, Water.baseColor, Water.mass, Water.behaviors);
+    super(grid, Water.baseColor, Water.mass, Water.behaviors, 0.75, false);
   }
 }

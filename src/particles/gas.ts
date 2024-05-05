@@ -6,7 +6,7 @@ import { Grid } from "../core/grid";
 import { Particle } from "../core/particle";
 
 export class Gas extends Particle {
-  static baseColor = "#404040";
+  static baseColor = "#403f40";
   static mass = 0.333;
   static behaviors: Behavior[] = [
     new SortByMass(),
@@ -15,6 +15,6 @@ export class Gas extends Particle {
   ];
 
   constructor(grid: Grid) {
-    super(grid, Gas.baseColor, Gas.mass, Gas.behaviors);
+    super(grid, Gas.baseColor, Gas.mass, Gas.behaviors, 0.5);
   }
 }
